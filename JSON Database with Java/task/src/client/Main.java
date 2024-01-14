@@ -1,6 +1,9 @@
 package client;
 
 
+import com.beust.jcommander.JCommander;
+import com.beust.jcommander.Parameter;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -12,18 +15,36 @@ public class Main {
     static String address = "127.0.0.1";
     static int port = 23456;
 
+    static Socket socket;
+
 
     public static void main(String[] args) throws IOException {
+        Args arguments = new Args();
 
-        Socket socket = new Socket(InetAddress.getByName(address), port);
-        DataInputStream input = new DataInputStream(socket.getInputStream());
+        JCommander.newBuilder()
+                .addObject(arguments)
+                .build()
+                .parse(args);
+
+
+        socket = new Socket(InetAddress.getByName(address), port);
+
         DataOutputStream output = new DataOutputStream(socket.getOutputStream());
+
+
+        DataInputStream input = new DataInputStream(socket.getInputStream());
         System.out.println("Client started!");
-        output.writeUTF("Give me a record # 12");
-        System.out.println("Sent: Give me a record # 12");
+        output.writeUTF(arguments.toString());
+        System.out.println("Sent: " + arguments);
+
+
+
         System.out.println("Received: " + input.readUTF());
 
 
+
     }
+
+
 
 }
