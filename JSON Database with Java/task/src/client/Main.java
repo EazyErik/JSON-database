@@ -2,6 +2,7 @@ package client;
 
 
 import com.beust.jcommander.JCommander;
+import server.ServerResponse;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -33,12 +34,12 @@ public class Main {
 
         DataInputStream input = new DataInputStream(socket.getInputStream());
         System.out.println("Client started!");
-        output.writeUTF(arguments.toString());
-        System.out.println("Sent: " + arguments);
+        output.writeUTF(arguments.toJSON());
+        System.out.println("Sent: " + arguments.toJSON());
 
 
 
-        System.out.println("Received: " + input.readUTF());
+       System.out.println(input.readUTF());
 
 
 
